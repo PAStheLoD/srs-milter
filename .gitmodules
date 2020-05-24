@@ -1,0 +1,3 @@
+[submodule "libspf2"]
+	path = libspf2
+	url = ./libspf2
