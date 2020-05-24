@@ -6,7 +6,29 @@ This milter implemets SRS (Sender Rewriting Scheme) that can be used to fix enve
 * Incoming mail - rewrite RCPT TO addresses in SRS format back
 * Outgoing mail - rewrite MAIL FROM address to SRS format
 
-SRS secrets can be provided securely inside a file. For quick testing and backwards compatibility with old configurations, they can still be provided insecurely on the command line.
+# Howto
+
+    git clone https://github.com/PAStheLoD/srs-milter srs-milter
+
+    cd ./srs-milter
+
+    docker build -t srs-milter .
+
+    echo -n $(uuidgen) > srs-secrets
+
+    docker rm -f srs-milter
+
+    docker run -d --name srs-milter --restart always --publish 127.0.0.1:10043:10043 -v $PWD/srs-secrets:/mnt/srs-secrets srs-milter \
+        /bin/bash -c 'cd /opt && exec ./srs-filter \
+        --socket=inet:10043@0.0.0.0 \
+        --forward \
+        --local-domain=mail.example.com \
+        --srs-domain=mail.example.com \
+        --srs-secret "$(cat /mnt/srs-secrets)" \
+        --spf-check'
+
+
+TODO: SRS secrets can be provided securely inside a file. For quick testing and backwards compatibility with old configurations, they can still be provided insecurely on the command line.
 
 Dependencies
 ------------
