@@ -8,7 +8,7 @@ This milter implemets SRS (Sender Rewriting Scheme) that can be used to fix enve
 
 # Howto
 
-    git clone https://github.com/PAStheLoD/srs-milter srs-milter
+    git clone --recursive https://github.com/PAStheLoD/srs-milter srs-milter
 
     cd ./srs-milter
 
